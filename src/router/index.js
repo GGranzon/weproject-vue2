@@ -49,6 +49,10 @@ export default new Router({
       redirect:"/login"
     },
     {
+      path: "/login",
+      component: Login
+    },
+    {
       path:"/index",
       component:Index,
       children:[
