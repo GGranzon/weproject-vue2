@@ -56,6 +56,11 @@ export default new Router({
       path:"/index",
       component:Index,
       children:[
+        //角色管理
+        {
+          path: "role",
+          component: Role
+        },
         //门店配置
         {
           path:"shop",

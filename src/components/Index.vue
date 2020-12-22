@@ -23,7 +23,7 @@
         <el-submenu index="1">
           <template slot="title"><i class="el-icon-message"></i>系统用户</template>
           <el-menu-item-group>
-            <el-menu-item index="1-1">角色管理</el-menu-item>
+            <el-menu-item index="1-1" @click="role">角色管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -116,8 +116,17 @@ export default {
     },
     distri(){
       this.$router.push("/index/updateDistri")
+    },
+    role(){
+      this.$router.push("/index/role")
     }
 
+  },
+  created() {
+    this.$message({
+      message: '欢迎进入系统！😘😘',
+      type: 'success'
+    });
   }
 }
 </script>
