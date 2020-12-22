@@ -50,9 +50,18 @@ export default new Router({
       redirect:"/login"
     },
     {
+      path: "/login",
+      component: Login
+    },
+    {
       path:"/index",
       component:Index,
       children:[
+        //角色管理
+        {
+          path: "role",
+          component: Role
+        },
         //门店配置
         {
           path:"shop",

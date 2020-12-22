@@ -1,20 +1,21 @@
 
-
 <template>
-  <div class="login">
-    <el-form :label-position="labelPosition" label-width="80px" :model="user">
-      <h1>欢迎登录</h1>
-      <el-form-item label="用户名">
-        <el-input v-model="user.username"></el-input>
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-input v-model="user.password"></el-input>
-      </el-form-item>
+  <div class="background">
+    <div class="login">
+      <el-form :label-position="labelPosition" label-width="80px" :model="user">
+        <h1>欢迎登录</h1>
+        <el-form-item label="用户名">
+          <el-input v-model="user.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input v-model="user.password"></el-input>
+        </el-form-item>
 
-      <el-row>
-        <el-button type="primary">点击登录</el-button>
-      </el-row>
-    </el-form>
+        <el-row>
+          <el-button type="primary" @click="login">点击登录</el-button>
+        </el-row>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -31,7 +32,10 @@ export default {
     };
   },
   methods:{
-
+    //登录后跳转主页
+    login(){
+      this.$router.push("/index")
+    }
   }
 }
 </script>
@@ -45,6 +49,13 @@ export default {
     border: 1px #eeeeee solid;
     text-align: center;
     border-radius: 5px;
+    background-color: white;
+  }
+  .background{
+    width: 100%;
+    height: 800px;
+    border: 1px white solid;
+    background: url("../assets/loginIMG.jpg");
   }
   h1{
     color: #1989fA;
