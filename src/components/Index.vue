@@ -115,7 +115,7 @@ export default {
       this.$router.push("/index/member")
     },
     distri(){
-      this.$router.push("/index/updateDistri")
+      this.$router.push("/index/distri")
     }
 
   }

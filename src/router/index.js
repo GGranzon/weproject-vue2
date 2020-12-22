@@ -8,6 +8,7 @@ import UpdateMember from '../components/UpdateMember-lkq.vue'
 import AddDistri from '../components/AddDistributor-lkq.vue'
 import UpdateDistri from '../components/UpdateDistributor-lkq'
 import MemberInfo from '../components/MemberInfo-lkq'
+import Distri from '../components/Distributor-lkq'
 //主页/登录注册/角色管理
 import Index  from '../components/Index'
 import Login from  '../components/Login-lht'
@@ -162,6 +163,10 @@ export default new Router({
           component: UpdateMember
         },
         //渠道商管理
+        {
+          path:"distri",
+          component:Distri
+        },
         {
           path: "addDistri",
           component: AddDistri

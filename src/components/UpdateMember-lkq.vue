@@ -10,7 +10,7 @@
         <div id="formtable">
           <el-form ref="form" :model="form" label-width="90px" >
             <el-form-item label="会员编号" >
-              <el-input v-model="form.member_id" style="width: 350px" readonly=“readonly”></el-input>
+              <el-input v-model="form.memberId" style="width: 350px" readonly=“readonly”></el-input>
             </el-form-item>
             <el-form-item label="姓名">
               <el-input v-model="form.name" style="width: 350px"></el-input>
@@ -19,16 +19,16 @@
               <el-input v-model="form.tel" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="证件号码">
-              <el-input v-model="form.card_num" style="width: 350px"></el-input>
+              <el-input v-model="form.cardNum" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="账户名称">
-              <el-input v-model="form.account_name" style="width: 350px"></el-input>
+              <el-input v-model="form.accountName" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="开户行">
-              <el-input v-model="form.opening_bank" style="width: 350px"></el-input>
+              <el-input v-model="form.openingBank" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="账号">
-              <el-input v-model="form.account_num" style="width: 350px"></el-input>
+              <el-input v-model="form.accountNum" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="生日">
               <el-col :span="11">
@@ -43,27 +43,27 @@
               </el-select>
             </el-form-item>
             <el-form-item label="可用余额/元">
-              <el-input v-model="form.balance" style="width: 350px"></el-input>
+              <el-input v-model="form.balance" style="width: 350px" readonly=“readonly”></el-input>
             </el-form-item>
             <el-form-item label="冻结金额/元">
-              <el-input v-model="form.frozen_money" style="width: 350px"></el-input>
+              <el-input v-model="form.frozenMoney" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="透支额度/元">
               <el-input v-model="form.overdraft" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="可用积分">
-              <el-input v-model="form.able_count" style="width: 350px"></el-input>
+              <el-input v-model="form.ableCount" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="累计积分">
-              <el-input v-model="form.all_count" style="width: 350px"></el-input>
+              <el-input v-model="form.allCount" style="width: 350px" readonly=“readonly”></el-input>
             </el-form-item>
             <el-form-item label="入会日期">
               <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.join_date" style="width: 100%;margin-left: 9px"></el-date-picker>
+                <el-date-picker type="date" placeholder="选择日期" v-model="form.joinDate" style="width: 100%;margin-left: 9px"></el-date-picker>
               </el-col>
             </el-form-item>
             <el-form-item label="所属渠道">
-              <el-input v-model="form.distributor_id" style="width: 350px"></el-input>
+              <el-input v-model="form.distributorId" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
@@ -87,22 +87,22 @@ export default {
   data() {
     return {
       form: {
-        member_id:15,
+        memberId:15,
         name: '',
         tel:'',
-        card_num:'',
-        account_name:'',
-        opening_bank:'',
-        account_num:'',
+        cardum:'',
+        accountName:'',
+        openingBank:'',
+        accountNum:'',
         birthday:'',
         level:'黄金VIP',
-        balance:0,
-        frozen_money:0,
-        overdraft:0,
-        able_count:0,
-        all_count:0,
-        join_date:'',
-        distributor_id:'',
+        balance:100,
+        frozenMoney:1000,
+        overdraft:10000,
+        ableCount:123,
+        allCount:1234,
+        joinDate:'',
+        distributorId:'',
         status:''
       }
     }

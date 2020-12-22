@@ -12,7 +12,7 @@
           border
           style="width: 100%">
           <el-table-column
-            prop="member_id"
+            prop="memberId"
             label="序号"
           >
           </el-table-column>
@@ -31,17 +31,17 @@
           >
           </el-table-column>
           <el-table-column
-            prop="frozen_money"
+            prop="frozenMoney"
             label="冻结金额"
           >
           </el-table-column>
           <el-table-column
-            prop="able_count"
+            prop="ableCount"
             label="可用积分"
           >
           </el-table-column>
           <el-table-column
-            prop="join_date"
+            prop="joinDate"
             label="入会日期"
           >
           </el-table-column>
@@ -72,13 +72,13 @@ export default {
   data() {
     return {
       tableData: [{
-        member_id:0,
+        memberId:0,
         name: '王小虎',
         tel:'4545',
         balance: 1000.0,
-        frozen_money:5454.0,
-        able_count:45152,
-        join_date:'2020.08.12'
+        frozenMoney:5454.0,
+        ableount:45152,
+        joinDate:'2020.08.12'
       }]
     }
   }
