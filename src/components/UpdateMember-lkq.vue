@@ -3,7 +3,7 @@
     <el-container>
       <el-header>修改会员信息
 
-        <el-button type="success" icon="el-icon-circle-close"  circle></el-button>
+        <el-button type="success" icon="el-icon-circle-close"  circle @click="closePage"></el-button>
 
       </el-header>
       <el-main>
@@ -24,17 +24,13 @@
             <el-form-item label="账户名称">
               <el-input v-model="form.accountName" style="width: 350px"></el-input>
             </el-form-item>
-            <el-form-item label="开户行">
-              <el-input v-model="form.openingBank" style="width: 350px"></el-input>
-            </el-form-item>
+<!--            <el-form-item label="开户行">-->
+<!--              <el-input v-model="form.openingBank" style="width: 350px"></el-input>-->
+<!--            </el-form-item>-->
             <el-form-item label="账号">
               <el-input v-model="form.accountNum" style="width: 350px"></el-input>
             </el-form-item>
-            <el-form-item label="生日">
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.birthday" style="width: 100%;margin-left: 9px"></el-date-picker>
-              </el-col>
-            </el-form-item>
+
             <el-form-item label="会员等级" >
               <el-select v-model="form.level" style="margin-right: 158px" >
                 <el-option label="黄金VIP" value="黄金VIP"></el-option>
@@ -42,9 +38,9 @@
                 <el-option label="超级VIP" value="超级VIP"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="可用余额/元">
-              <el-input v-model="form.balance" style="width: 350px" readonly=“readonly”></el-input>
-            </el-form-item>
+<!--            <el-form-item label="可用余额/元">-->
+<!--              <el-input v-model="form.balance" style="width: 350px" readonly=“readonly”></el-input>-->
+<!--            </el-form-item>-->
             <el-form-item label="冻结金额/元">
               <el-input v-model="form.frozenMoney" style="width: 350px"></el-input>
             </el-form-item>
@@ -57,11 +53,7 @@
             <el-form-item label="累计积分">
               <el-input v-model="form.allCount" style="width: 350px" readonly=“readonly”></el-input>
             </el-form-item>
-            <el-form-item label="入会日期">
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.joinDate" style="width: 100%;margin-left: 9px"></el-date-picker>
-              </el-col>
-            </el-form-item>
+
             <el-form-item label="所属渠道">
               <el-input v-model="form.distributorId" style="width: 350px"></el-input>
             </el-form-item>
@@ -72,7 +64,7 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit" style="float: left;margin-left: 70px">保存</el-button>
+              <el-button type="primary"  style="float: left;margin-left: 70px" @click="updateMember">保存</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -87,10 +79,10 @@ export default {
   data() {
     return {
       form: {
-        memberId:15,
+        memberId:'',
         name: '',
         tel:'',
-        cardum:'',
+        cardNum:'',
         accountName:'',
         openingBank:'',
         accountNum:'',
@@ -110,7 +102,64 @@ export default {
   methods: {
     onSubmit() {
       console.log('submit!');
+    },
+    findMember(){
+      var _this =this
+      this.form.memberId= sessionStorage.getItem("memberid")
+      console.log("更新的id"+this.form.memberId)
+      //查询数据库，返回数据
+      this.$axios.get("http://localhost:8888/member/findOne",{
+        params:{
+          memberId:this.form.memberId
+        }
+      }).then(function (res){
+          console.log(res)
+              _this.form.name=res.data.data.name,
+              _this.form.tel=res.data.data.tel,
+              _this.form.cardNum=res.data.data.cardNum,
+              _this.form.accountName=res.data.data.accountName,
+              _this.form.accountNum=res.data.data.accountNum,
+              _this.form.level=res.data.data.level,
+              _this.form.frozenMoney=res.data.data.frozenMoney,
+              _this.form.overdraft=res.data.data.overdraft,
+              _this.form.ableCount=res.data.data.ableCount,
+              _this.form.allCount=res.data.data.allCount,
+              _this.form.distributorId=res.data.data.distributorId,
+              _this.form.status=res.data.data.status
+      })
+    },
+    updateMember(){
+      this.$axios.get("http://localhost:8888/member/update",{
+        params:{
+          memberId:this.form.memberId,
+          name: this.form.name,
+          tel:this.form.tel,
+          cardum:this.form.cardum,
+          accountName:this.form.accountName,
+          accountNum:this.form.accountNum,
+          level:this.form.level,
+          frozenMoney:this.form.frozenMoney,
+          overdraft:this.form.overdraft,
+          ableCount:this.form.ableCount,
+          allCount:this.form.allCount,
+          distributorId:this.form.distributorId,
+          status:this.form.status
+        }
+      }).then(function (res){
+        if(res.data.statusCode==2000){
+          alert("修改会员信息成功");
+        }else if (res.data.statusCode==2001){
+          alert("修改会员信息失败");
+
+        }
+      })
+    },
+    closePage(){
+      this.$router.push("/index/member")
     }
+  },
+  created() {
+    this.findMember()
   }
 }
 </script>

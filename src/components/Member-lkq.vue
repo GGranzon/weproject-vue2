@@ -6,7 +6,7 @@
         <span>主页</span>
         <i class="el-icon-d-arrow-right"></i>
         <span>会员档案</span>
-        <el-button type="primary" >刷新</el-button>
+        <el-button type="primary" @click="refresh">刷新</el-button>
       </el-header>
       <el-main>
         <span>状态</span>
@@ -22,11 +22,8 @@
         <el-input v-model="input" placeholder="请输入会员名、手机查询"></el-input>
         <el-button id="sreach"  type="success" plain>查询</el-button>
 
-        <el-popconfirm
-          title="确定删除这条信息吗？"
-        ><el-button slot="reference" type="danger" icon="el-icon-delete" circle style="margin-top: 50px"></el-button>
-        </el-popconfirm>
-        <el-button type="primary" icon="el-icon-edit" circle @click="update" style="margin-top: 50px"></el-button>
+        <el-button type="danger"  icon="el-icon-delete" circle @click="deletee" style="margin-top: 50px" ></el-button>
+        <el-button type="primary" icon="el-icon-edit" circle @click="update"  style="margin-top: 50px" ></el-button>
         <el-button type="success" icon="el-icon-circle-plus-outline" circle  @click="add" style="margin-top: 50px"></el-button>
         <!--表格-->
         <el-table
@@ -35,7 +32,7 @@
           tooltip-effect="dark"
           style="width: 100%"
 
-          @selection-change="handleSelectionChange">
+          @selection-change="handleSelectionChange"> <!--选择方法-->
           <el-table-column
             type="selection"
             width="55">
@@ -101,6 +98,7 @@
 
 <script>
 
+
 export default {
   name: "Member-lkq",
 
@@ -119,17 +117,19 @@ export default {
         label: '全部'
       }, {
         value: '选项2',
-        label: '已启用'
+        label: '启用'
       }, {
         value: '选项3',
-        label: '已禁用'
+        label: '禁用'
       }],
 
       value: '',
       input: '',
+      sessionMember:"",
+      deleted:[],
 
       tableData: [{
-        memberId:0,
+        memberId:"",
         name: '王小虎',
         tel:'4545',
         balance: 1000.0,
@@ -137,7 +137,8 @@ export default {
         ableCount:45152,
         joinDate:'2020.08.12',
         distributorId:545,
-        status:'已启用'
+        status:'已启用',
+
       }],
       multipleSelection: []
     }
@@ -149,9 +150,19 @@ export default {
     },
     //点击修改按钮，跳转修改界面
     update(){
+      sessionStorage.setItem("memberid",this.sessionMember)
+      console.log("1111"+this.sessionMember)
       this.$router.push("/index/updateMember")
     },
+    //点击删除按钮，
+    deletee(){
+      console.log(this.deleted)
+      this.$axios.post("http://localhost:8888/member/del",this.deleted).then(function (res){
+          console.log(res)
+      })
 
+
+    },
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -161,17 +172,23 @@ export default {
         this.$refs.multipleTable.clearSelection();
       }
     },
+    //选择框
     handleSelectionChange(val) {
       console.log(val)
-      this.multipleSelection = val;
+        for(var i= 0;i<val.length;i++){
+          this.sessionMember =val[i].memberId,
+            this.deleted[i]=val[i].memberId
+        }
+        this.multipleSelection = val;
     },
 
-
+    //切换每页的条数
     handleSizeChange(val) {
       this.page.size=val;
       this.show();
       console.log(`每页 ${val} 条`);
     },
+    //切换当前页数
     handleCurrentChange(val) {
       this.page.current=val;
       this.show()
@@ -189,6 +206,16 @@ export default {
           _this.page.total=res.data.data.total;
           _this.page.records=res.data.data.records;
         })
+    },
+    //根据状态查询/停用和启用
+
+
+
+
+
+    refresh(){
+      console.log(22222222)
+      this.show();
     }
   },
   created() {

@@ -3,7 +3,7 @@
   <el-container>
     <el-header>新增用户
 
-      <el-button type="success" icon="el-icon-circle-close"  circle></el-button>
+      <el-button type="success" icon="el-icon-circle-close"  circle @click="closePage"></el-button>
 
     </el-header>
     <el-main>
@@ -118,6 +118,9 @@ name: "AddMember",
 
         }
       })
+    },
+    closePage(){
+      this.$router.push("/index/member")
     }
   }
 }
