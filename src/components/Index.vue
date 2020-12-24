@@ -6,11 +6,8 @@
       </div>
       <div class="title-text">广沣典当管理系统</div>
       <div class="login-text">
-        <el-dropdown split-button type="primary" @click="handleClick">
-          点击登录
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>注销</el-dropdown-item>
-          </el-dropdown-menu>
+        <el-dropdown split-button type="primary" @click="logout">
+          点击注销
         </el-dropdown>
       </div>
       <div class="login-text">
@@ -23,7 +20,7 @@
         <el-submenu index="1">
           <template slot="title"><i class="el-icon-message"></i>系统用户</template>
           <el-menu-item-group>
-            <el-menu-item index="1-1">角色管理</el-menu-item>
+            <el-menu-item index="1-1" @click="role">角色管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -35,7 +32,7 @@
         <el-submenu index="3">
           <template slot="title"><i class="el-icon-truck"></i>仓库配置</template>
           <el-menu-item-group>
-            <el-menu-item index="2-1" @click="wareHouse">仓库配置</el-menu-item>
+            <el-menu-item index="2-1" @click="wareHouse">仓库资料</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="4">
@@ -115,9 +112,28 @@ export default {
       this.$router.push("/index/member")
     },
     distri(){
-      this.$router.push("/index/updateDistri")
+      this.$router.push("/index/distri")
+
+    },
+    role(){
+      this.$router.push("/index/role")
+    },
+
+    //登出操作
+    logout(){
+      this.$axios("http://localhost:8888/update").then((resp) => {
+        console.log(resp)
+      })
     }
 
+
+
+  },
+  created() {
+    this.$message({
+      message: '欢迎进入系统！😘😘',
+      type: 'success'
+    });
   }
 }
 </script>

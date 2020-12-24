@@ -19,25 +19,25 @@
               <el-input v-model="form.tel" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="证件号码">
-              <el-input v-model="form.card_code" style="width: 350px"></el-input>
+              <el-input v-model="form.cardCode" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="账户名称">
-              <el-input v-model="form.account_name" style="width: 350px"></el-input>
+              <el-input v-model="form.accountName" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="开户行">
-              <el-input v-model="form.opening_bank" style="width: 350px"></el-input>
+              <el-input v-model="form.openingBank" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="账号">
-              <el-input v-model="form.account_code" style="width: 350px"></el-input>
+              <el-input v-model="form.accountCode" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="会员数量">
-              <el-input v-model="form.member_num" style="width: 350px" readonly=“readonly”></el-input>
+              <el-input v-model="form.memberNum" style="width: 350px" readonly=“readonly”></el-input>
             </el-form-item>
             <el-form-item label="累计充值">
-              <el-input v-model="form.all_charge" style="width: 350px" readonly=“readonly”></el-input>
+              <el-input v-model="form.allCharge" style="width: 350px" readonly=“readonly”></el-input>
             </el-form-item>
             <el-form-item label="累计消费">
-              <el-input v-model="form.all_pay" style="width: 350px" readonly=“readonly”></el-input>
+              <el-input v-model="form.allPay" style="width: 350px" readonly=“readonly”></el-input>
             </el-form-item>
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
@@ -61,16 +61,16 @@ export default {
   data() {
     return {
       form: {
-        member_id:15,
+        id:15,
         name: '',
         tel:'',
-        card_code:'',
-        account_name:'',
-        opening_bank:'',
-        account_code:'',
-        member_num:0,
-        all_charge:0,
-        all_pay:0,
+        cardCode:'',
+        accountName:'',
+        openingBank:'',
+        accountCode:'',
+        memberNum:0,
+        allCharge:0,
+        allPay:0,
         status:''
       }
     }
