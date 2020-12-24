@@ -1,11 +1,11 @@
 <template>
-  <div id="big" >
+  <div id="big">
     <el-container>
       <el-header>
         <i class="el-icon-s-home"></i>
         <span>主页</span>
         <i class="el-icon-d-arrow-right"></i>
-        <span>会员档案</span>
+        <span>渠道商档案</span>
         <el-button type="primary" >刷新</el-button>
       </el-header>
       <el-main>
@@ -27,70 +27,59 @@
         ><el-button slot="reference" type="danger" icon="el-icon-delete" circle style="margin-top: 50px"></el-button>
         </el-popconfirm>
         <el-button type="primary" icon="el-icon-edit" circle @click="update" style="margin-top: 50px"></el-button>
-        <el-button type="success" icon="el-icon-circle-plus-outline" circle  @click="add" style="margin-top: 50px"></el-button>
+        <el-button type="success" icon="el-icon-circle-plus-outline" circle @click="add" style="margin-top: 50px"></el-button>
         <!--表格-->
         <el-table
-          ref="multipleTable"
-          :data="this.page.records"
-          tooltip-effect="dark"
-          style="width: 100%"
-
-          @selection-change="handleSelectionChange">
+          :data="tableData"
+          border
+          style="width: 100%">
           <el-table-column
-            type="selection"
-            width="55">
-          </el-table-column>
-          <el-table-column
-            prop="memberId"
+            prop="id"
             label="序号"
-          >
+            >
           </el-table-column>
           <el-table-column
             prop="name"
-            label="姓名"
-          >
+            label="渠道名"
+            >
           </el-table-column>
           <el-table-column
             prop="tel"
-            label="手机"
-          >
+            label="手机">
           </el-table-column>
           <el-table-column
-            prop="balance"
-            label="可用余额"
-          >
+            prop="cardCode"
+            label="证件号">
           </el-table-column>
           <el-table-column
-            prop="frozenMoney"
-            label="冻结金额"
-          >
+            prop="allCharge"
+            label="累计充值">
           </el-table-column>
           <el-table-column
-            prop="ableCount"
-            label="可用积分"
-          >
+            prop="allPay"
+            label="累计消费">
           </el-table-column>
           <el-table-column
-            prop="distributorId"
-            label="所属渠道"
-          >
+            prop="memberNum"
+            label="会员数量">
           </el-table-column>
           <el-table-column
             prop="status"
-            label="状态"
-          >
+            label="状态">
           </el-table-column>
+
         </el-table>
+
         <div style="margin-top: 20px">
           <div class="block">
             <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page="this.page.current"
-              :page-sizes="[5, 10, 15, 20]"
-              :page-size="5"
+              :current-page="currentPage4"
+              :page-sizes="[100, 200, 300, 400]"
+              :page-size="100"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="this.page.total"><!--总页数-->
+              :total="400">
             </el-pagination>
           </div>
         </div>
@@ -102,17 +91,15 @@
 <script>
 
 export default {
-  name: "Member-lkq",
+  name: "Distributor" +
+    "-lkq",
 
   data() {
     return {
-      page:{
-        current:1,
-        total:0,
-        size: 5,
-        pages:0,
-        records: [],
-      },
+      currentPage1: 5,
+      currentPage2: 5,
+      currentPage3: 5,
+      currentPage4: 4,
 
       options: [{
         value: '选项1',
@@ -129,14 +116,13 @@ export default {
       input: '',
 
       tableData: [{
-        memberId:0,
+        id:0,
         name: '王小虎',
         tel:'4545',
-        balance: 1000.0,
-        frozenMoney:5454.0,
-        ableCount:45152,
-        joinDate:'2020.08.12',
-        distributorId:545,
+        allCharge: 1000.0,
+        allPay:5454.0,
+        memberNum:45152,
+        cardCode:'2020.08.12',
         status:'已启用'
       }],
       multipleSelection: []
@@ -145,13 +131,12 @@ export default {
   methods: {
     //点击新增按钮，跳转新增界面
     add(){
-      this.$router.push("/index/addMember")
+      this.$router.push("/index/addDistri")
     },
     //点击修改按钮，跳转修改界面
     update(){
-      this.$router.push("/index/updateMember")
+      this.$router.push("/index/updateDistri")
     },
-
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -162,37 +147,14 @@ export default {
       }
     },
     handleSelectionChange(val) {
-      console.log(val)
       this.multipleSelection = val;
     },
-
-
     handleSizeChange(val) {
-      this.page.size=val;
-      this.show();
       console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      this.page.current=val;
-      this.show()
       console.log(`当前页: ${val}`);
-    },
-    //展示会员信息
-    show(){
-        var _this =this
-        this.$axios.get("http://localhost:8888/member/page",{
-          params:{
-            current:this.page.current,
-            size:this.page.size
-          }
-        }).then(function (res){
-          _this.page.total=res.data.data.total;
-          _this.page.records=res.data.data.records;
-        })
     }
-  },
-  created() {
-    this.show();
   }
 }
 </script>
@@ -206,7 +168,7 @@ export default {
   background-color: #E4E7ED;
   color: #333;
   text-align: left;
-  line-height: 100%;
+  line-height: 60px;
   width: 100%;
 }
 .el-button{
