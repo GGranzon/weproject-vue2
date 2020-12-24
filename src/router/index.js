@@ -13,6 +13,7 @@ import Distri from '../components/Distributor-lkq'
 import Index  from '../components/Index'
 import Login from  '../components/Login-lht'
 import Role from  '../components/Role-lht'
+import Register from '../components/Register-lht'
 //门店/仓库配置
 import Shopll from '../components/Shop-ll.vue'
 import AddShop from '../components/AddShop-ll.vue'
@@ -39,7 +40,11 @@ import AppraisalZG from "../components/AppraisalZG";
 import ApprTableZG from "../components/ApprTableZG";
 import UpdateApprZG from "../components/UpdateApprZG";
 
+
+
 Vue.use(Router)
+
+//路由导航守卫
 
 
 export default new Router({
@@ -61,6 +66,11 @@ export default new Router({
         {
           path: "role",
           component: Role
+        },
+        //注册
+        {
+          path: "register",
+          component: Register
         },
         //门店配置
         {
@@ -192,3 +202,4 @@ export default new Router({
     }
   ]
 })
+
