@@ -12,11 +12,11 @@
         <div style="background-color:#E9EEF3;height: 50px;padding-top: 5px">
             <span style="line-height: 40px;float:left ; padding-left: 20px">筛选查询</span>
 
-            <el-input placeholder="请输入内容" style="width: 30%" v-model="finds" >
+            <el-input placeholder="请输入内容" style="width: 30%;margin-left:43% " v-model="finds" >
               <el-button slot="append" icon="el-icon-search" @click="find1"></el-button>
             </el-input>
             <el-button type="primary" @click="isShows">新增</el-button>
-            <el-button type="warning" @click="update">修改</el-button>
+            <el-button type="warning" @click="update" id="gai">修改</el-button>
             <el-button type="danger" @click="deleteType">删除</el-button>
         </div>
 
@@ -39,7 +39,6 @@
           prop="id"
           label="编号"
           width="100">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
         </el-table-column>
         <el-table-column
           prop="categoryName"
@@ -95,8 +94,8 @@
 
     <!--修改的弹出框-->
     <div id="add" v-show=this.isNo>
-      <div style="height: 10%;background-color:black;text-align: center; line-height: 60px;border-top-left-radius: 10px;border-top-right-radius: 10px">
-        <span style="color: #333333;font-size: 18px;color: #F5F5F5; ">商品大类修改</span>
+      <div style="height: 10%;background-color:beige;text-align: center; line-height: 60px;border-top-left-radius: 10px;border-top-right-radius: 10px">
+        <span style="color: #333333;font-size: 18px; ">商品小类新增</span>
       </div>
       <div style="margin-top: 5px">
         <span style="margin-left: 30px">分类名称：</span><el-input  style="width: 300px; margin-top: 30px;margin-left: 20px" v-model="addData.categoryName"></el-input>
@@ -114,7 +113,7 @@
 
       <div style="margin-top: 20px ;">
         <el-button type="info" style="float: right;margin-right: 50px" @click="isShows">返回</el-button>
-        <el-button type="warning" style="float: right;margin-right: 10px" @click="insert">新增</el-button>
+        <el-button type="success" style="float: right;margin-right: 10px" @click="insert">新增</el-button>
       </div>
     </div>
 
@@ -185,6 +184,9 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
       sessionStorage.setItem("dataId",this.multipleSelection[0].id)
+      if(this.multipleSelection.length>1){
+        alert("一次只能够修改一条数据哦")
+      }
     },
 
     //分页查询方法
@@ -218,6 +220,7 @@ export default {
 
     /*新增商品小类*/
     insert(){
+      this.isNo = !this.isNo;
       var _this=this
       console.log(this.addData)
       this.$axios.post("http://localhost:8888/product-category/add",this.addData).then(function (resp){
@@ -249,9 +252,9 @@ export default {
 
 <style scoped>
 
-.el-header, .el-footer {
-  background-color: black;
-  color: white;
+.el-header{
+  background-color:white;
+  color: #333333;
   text-align:left;
   line-height: 60px;
 }
@@ -274,9 +277,3 @@ export default {
 }
 
 </style>
-
-<!--根据商品大类查询-->
-<!--<el-select placeholder="请选择分类" style="width: 120px;margin-left: 30%" value="">-->
-<!--<el-option label="箱包" value=""></el-option>-->
-<!--<el-option label="珠宝" value=""></el-option>-->
-<!--</el-select>-->

@@ -50,8 +50,8 @@
       </el-form>
     </div>
     <el-footer style="height: 50px">
-      <el-button type="info" style="margin-top: 5px" @click="returnBigType">返回</el-button>
-      <el-button type="success" style="margin-top: 5px" @click="insertType">新增</el-button>
+      <el-button type="info" style="margin-top: 5px;float: right;margin-right: 350px" @click="returnBigType">返回</el-button>
+      <el-button type="success" style="margin-top: 5px;float: right;margin-right: 10px" @click="insertType">新增</el-button>
     </el-footer>
   </div>
 </template>
@@ -97,7 +97,7 @@ export default {
       console.log(this.productCategory)
       this.$axios.post("http://localhost:8888/product-category/add",this.productCategory).then(function (resp){
         alert(resp.data.message)
-        // _this.$router.push("/index/commodity")
+        _this.$router.push("/index/smallCommodity")
       })
     },
 
@@ -112,11 +112,10 @@ export default {
 </script>
 
 <style scoped>
-.el-header, .el-footer {
-  background-color: #E9EEF3;
-  color: #333;
-  text-align: center;
-  line-height: 40px;
+.el-header{
+  background-color:white;
+  color: #333333;
+  text-align:left;
+  line-height: 60px;
 }
-
 </style>

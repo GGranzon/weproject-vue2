@@ -12,7 +12,7 @@
 
         <div style="background-color:#E9EEF3;height: 50px;padding-top: 5px">
           <span style="line-height: 40px;float:left ; padding-left: 20px">筛选查询</span>
-          模糊条件：<el-input placeholder="请输入品牌名称或品牌首字母缩写" style="width: 30%" v-model=finds>
+          模糊条件：<el-input placeholder="请输入品牌名称或品牌首字母缩写" style="width: 30%;margin-left: 36%" v-model=finds>
             <el-button slot="append" icon="el-icon-search" @click="find2Page(page.current,page.size)"></el-button>
           </el-input>
           <el-button type="primary" @click="add">新增</el-button>
@@ -77,8 +77,8 @@
 
     <!--修改的弹出框-->
     <div id="update" v-show=this.isNo>
-      <div style="height: 15%;background-color:black;text-align: center; line-height: 60px;border-top-left-radius: 10px;border-top-right-radius: 10px">
-        <span style="color: #333333;font-size: 18px;color: #F5F5F5; ">商品大类修改</span>
+      <div style="height: 15%;background-color:beige;text-align: center; line-height: 60px;border-top-left-radius: 10px;border-top-right-radius: 10px">
+        <span style="color: #333333;font-size: 18px; ">商品大类修改</span>
       </div>
       <div style="margin-top: 5px">
         <span style="margin-left: 30px">品牌名称：</span><el-input  style="width: 300px; margin-top: 30px;margin-left: 20px" v-model="updateType.brandName"></el-input>
@@ -92,7 +92,7 @@
 
       <div style="margin-top: 20px">
         <el-button type="info" style="float: right;margin-right: 50px" @click="isShows">返回</el-button>
-        <el-button type="warning" style="float: right;margin-right: 10px" @click="update">修改</el-button>
+        <el-button type="success" style="float: right;margin-right: 10px" @click="update">修改</el-button>
       </div>
     </div>
   </div>
@@ -149,6 +149,9 @@ export default {
       this.multipleSelection = val;
       sessionStorage.setItem("id",this.multipleSelection[0].id)
       console.log(this.multipleSelection)
+      if(this.multipleSelection.length>1){
+        alert("一次只能够修改一条数据哦")
+      }
     },
 
     /*分页查询的方法*/
@@ -203,8 +206,8 @@ export default {
 <style scoped>
 
 .el-header{
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: #333333;
   text-align:left;
   line-height: 60px;
 }

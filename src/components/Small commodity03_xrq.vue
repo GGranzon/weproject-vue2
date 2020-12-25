@@ -40,13 +40,13 @@
           <el-input type="textarea" v-model=updateData.description></el-input>
         </el-form-item>
         <span style="font-size: 14px;float: left;padding-left: 15px">是否显示</span>
-        <el-radio v-model="radio" label="1">是</el-radio>
-        <el-radio v-model="radio" label="2" style="margin-bottom: 20px">否</el-radio>
+        <el-radio v-model="updateData.isShow" label="是" style="margin-left: 10px">是</el-radio>
+        <el-radio v-model="updateData.isShow" label="否" style="margin-bottom: 20px">否</el-radio>
       </el-form>
     </div>
     <el-footer style="height: 50px">
-      <el-button type="info" style="margin-top: 5px" @click="returnSmall">返 回</el-button>
-      <el-button type="success" style="margin-top: 5px" @click="updatepro">保 存</el-button>
+      <el-button type="info" style="margin-top: 5px;margin-left:10px;margin-right:430px;  float: right" @click="returnSmall">返 回</el-button>
+      <el-button type="success" style="margin-top: 5px ;float: right" @click="updatepro">保 存</el-button>
     </el-footer>
   </div>
 </template>
@@ -104,35 +104,11 @@ export default {
 </script>
 
 <style scoped>
-.el-header, .el-footer {
-  background-color: #E9EEF3;
-  color: #333;
-  text-align: center;
-  line-height: 40px;
+.el-header{
+  background-color:white;
+  color: #333333;
+  text-align:left;
+  line-height: 60px;
 }
 
 </style>
-
-
-
-
-<!--上传文件部分-->
-<!--        <el-form-item label="分类图标">-->
-<!--          <el-upload-->
-<!--            class="upload-demo"-->
-<!--            action="https://jsonplaceholder.typicode.com/posts/"-->
-<!--            :on-preview="handlePreview"-->
-<!--            :on-remove="handleRemove"-->
-<!--            :before-remove="beforeRemove"-->
-<!--            multiple-->
-<!--            :limit="3"-->
-<!--            :on-exceed="handleExceed"-->
-<!--            :file-list="fileList">-->
-<!--            <el-button size="small" type="primary">点击上传文件</el-button>-->
-
-<!--            <div slot="tip" class="el-upload__tip" style="width: 700px ;">图标尺寸为36*36比例，大小不能超过200KB，图片只能为JPG、PNG、GIF格式</div>-->
-<!--          </el-upload>-->
-<!--          <div style="float: right">-->
-<!--            <span style="margin-left: 60px;"><u>查看原图</u></span>-->
-<!--          </div>-->
-<!--        </el-form-item>-->

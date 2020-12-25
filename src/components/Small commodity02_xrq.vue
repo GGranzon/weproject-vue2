@@ -149,9 +149,9 @@ export default {
 
 <style scoped>
 
-.el-header, .el-footer {
-  background-color: black;
-  color: white;
+.el-header{
+  background-color:white;
+  color: #333333;
   text-align:left;
   line-height: 60px;
 }

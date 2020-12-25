@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%; width: 100%;">
     <el-container>
       <el-header>
         <a href="#">主页</a>
@@ -7,11 +7,11 @@
       </el-header>
     </el-container>
     <div id="finds">
-      <el-button type="danger" style="float: right" @click="deleteType">删除</el-button>
-      <el-button type="warning" style="float: right;margin-right: 10px" @click="isShow">修改</el-button>
-      <el-button type="primary" style="float: right" @click="addType">新增</el-button>
-      <div style="margin-top: 15px;">
-        <el-input placeholder="请输入商品大类名称" v-model="finds" style="width: 300px;float: right">
+      <el-button type="danger" style="float: right;margin-top: 5px" @click="deleteType">删除</el-button>
+      <el-button type="warning" style="float: right;margin-right: 10px;margin-top: 5px" @click="isShow">修改</el-button>
+      <el-button type="primary" style="float: right;margin-top: 5px" @click="addType">新增</el-button>
+      <div style="margin-top: 5px;">
+        <el-input placeholder="请输入商品大类名称" v-model="finds" style="width: 300px;float: right;margin-top: 5px">
           <el-button slot="append" icon="el-icon-search" @click="find1"></el-button>
         </el-input>
       </div>
@@ -29,7 +29,7 @@
       <el-table-column
         prop="id"
         label="编号"
-        width="150">
+        width="200">
       </el-table-column>
       <el-table-column
         prop="categoryName"
@@ -39,32 +39,36 @@
       <el-table-column
         prop="sort"
         label="排序"
-        width="100"
+        width="200"
         show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         prop="description"
         label="备注"
-        width="400"
+
         show-overflow-tooltip>
       </el-table-column>
     </el-table>
-    <div class="block" style="float: right;">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="page.current"
-        :page-sizes="[1, 2, 3, 5]"
-        :page-size="page.size"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="page.total">
-      </el-pagination>
+    <div style="width: 100%;height: 35px;background-color: #E9EEF3">
+      <div class="block" style="float: right;">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page.current"
+          :page-sizes="[1, 2, 3, 5]"
+          :page-size="page.size"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="page.total">
+        </el-pagination>
+      </div>
+
     </div>
+
 
     <!--修改的弹出框-->
     <div id="update" v-show=this.isNo>
-      <div style="height: 20%;background-color:black;text-align: center; line-height: 60px;border-top-left-radius: 10px;border-top-right-radius: 10px">
-        <span style="color: #333333;font-size: 18px;color: #F5F5F5; ">商品大类修改</span>
+      <div style="height: 20%;background-color:beige;text-align: center; line-height: 60px;border-top-left-radius: 10px;border-top-right-radius: 10px">
+        <span style="color: #333333;font-size: 18px; ">商品大类修改</span>
       </div>
       <div style="margin-top: 5px">
         <span style="margin-left: 30px">排序：</span><el-input  style="width: 300px; margin-top: 30px;margin-left: 20px" v-model="updateType.sort"></el-input>
@@ -74,7 +78,7 @@
 
       <div style="margin-top: 20px">
         <el-button type="info" style="float: right;margin-right: 50px" @click="isShow">返回</el-button>
-        <el-button type="warning" style="float: right;margin-right: 10px" @click="update">修改</el-button>
+        <el-button type="success" style="float: right;margin-right: 10px" @click="update">修改</el-button>
       </div>
     </div>
   </div>
@@ -129,7 +133,10 @@
 
       handleSelectionChange(val) {
         this.multipleSelection = val;
-        console.log(this.multipleSelection)
+        if(this.multipleSelection.length>1){
+          alert("一次只能够修改一条数据哦")
+        }
+
       },
       /*向后台模糊查询*/
       find1(){
@@ -184,16 +191,16 @@
 </script>
 
 <style>
-  .el-header{
-    height: 50px;
-    background-color: black;
-    color: #F5F5F5;
-    line-height: 60px;
-  }
+.el-header{
+  background-color:white;
+  color: #333333;
+  text-align:left;
+  line-height: 60px;
+}
 
   .el-header a{
     text-decoration-line: none;
-    color:#F5F5F5;
+    color:#333333;
   }
 
   #update{
@@ -205,6 +212,12 @@
     left: 35%;
     background-color: beige;
     border-radius: 10px;
+  }
+
+  #finds{
+    background-color:#E9EEF3;
+    border: 0px red solid;
+    height: 50px;
   }
 
 </style>

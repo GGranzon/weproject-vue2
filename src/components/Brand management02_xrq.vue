@@ -7,55 +7,38 @@
     </el-header>
     <div style="margin-left:18%;margin-top: 20px">
       <div style="width: 60%">
-        <el-form :label-position="labelPosition" label-width="85px" :model="formLabelAlign" style="width: 80%">
+        <el-form :label-position="labelPosition" label-width="85px" :model="brandData" style="width: 80%">
 
-          <el-form-item label="分类编号">
-            <el-input v-model="formLabelAlign.name"></el-input>
+          <el-form-item label="品牌id">
+            <el-input v-model="brandData.id" disabled></el-input>
           </el-form-item>
 
-          <el-form-item label="分类名称">
-            <el-input v-model="formLabelAlign.region"></el-input>
+          <el-form-item label="品牌名称">
+            <el-input v-model="brandData.brandName"></el-input>
           </el-form-item>
 
-          <el-form-item label="上级分类">
-            <el-input v-model="formLabelAlign.type"></el-input>
+          <el-form-item label="品牌首字母">
+            <el-input v-model="brandData.brandInitial"></el-input>
+          </el-form-item>
+
+          <el-form-item label="品牌信息">
+            <el-input v-model="brandData.brandInfo"></el-input>
           </el-form-item>
 
           <el-form-item label="排序">
-            <el-input v-model="formLabelAlign.type"></el-input>
+            <el-input v-model="brandData.sort"></el-input>
           </el-form-item>
 
           <span style="font-size: 14px;float: left;padding-left: 15px">是否显示</span>
-          <el-radio v-model="radio" label="1">是</el-radio>
+          <el-radio v-model="brandData.isShow" label="是" property="是">是</el-radio>
           <el-radio v-model="radio" label="2" style="margin-bottom: 20px">否</el-radio><br />
 
         </el-form>
       </div>
-
-      <div style="width: 40% ; float: left ; " >
-        <span style="float: left; font-size: 14px">待选商品大类</span>
-        <el-input placeholder="请输入内容" >
-          <el-button slot="append" icon="el-icon-search"></el-button>
-        </el-input>
-      </div>
-      <div style="width: 40% ; float: left;margin-left: 20px" >
-        <span style="float: left; font-size: 14px">适合商品大类</span>
-        <el-input placeholder="请选择内容" >
-          <el-button slot="append" icon="el-icon-search"></el-button>
-        </el-input>
-      </div>
-      <el-transfer
-        v-model="value"
-        :props="{
-      key: 'value',
-      label: 'desc'
-    }" style="float: left"
-        :data="data">
-      </el-transfer>
     </div>
     <el-footer style="height: 50px; width:100%;float: left">
-      <el-button type="success" style="margin-top: 5px" @click="returnBrand">返 回</el-button>
-      <el-button type="success" style="margin-top: 5px">保 存</el-button>
+      <el-button type="info" style="margin-top: 5px;float: right;margin-right: 530px" @click="returnBrand">返 回</el-button>
+      <el-button type="success" style="margin-top: 5px;float: right;margin-right: 10px" @click="insertBrand">保 存</el-button>
     </el-footer>
   </div>
 </template>
@@ -63,28 +46,18 @@
 <script>
 export default {
   data() {
-    const generateData = _ => {
-      const data = [];
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          value: i,
-          desc: `备选项 ${ i }`,
-        });
-      }
-      return data;
-    };
-
     return {
-      data: generateData(),
       value: [],
       labelPosition: 'right',
-      radio: '1',
-      formLabelAlign: {
-        name: '',
-        region: '',
-        type: ''
+      radio: '否',
+      brandData: {
+        id:'',
+        brandName: '',
+        brandNnitial: '',
+        brandInfo: '',
+        isShow:'',
+        sort:'',
       },
-      fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
     };
   },
   methods: {
@@ -104,17 +77,26 @@ export default {
     },
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
-    }
+    },
+    /*新增商品大类*/
+    insertBrand(){
+      var _this=this
+      console.log(this.brandData)
+      this.$axios.post("http://localhost:8888/brandinfo/add",this.brandData).then(function (resp){
+        alert(resp.data.message)
+        _this.$router.push("/index/brandManage")
+      })
+    },
   }
 }
 </script>
 
 <style scoped>
-.el-header, .el-footer {
-  background-color: #E9EEF3;
-  color: #333;
-  text-align: center;
-  line-height: 40px;
+.el-header{
+  background-color:white;
+  color: #333333;
+  text-align:left;
+  line-height: 60px;
 }
 
 </style>
