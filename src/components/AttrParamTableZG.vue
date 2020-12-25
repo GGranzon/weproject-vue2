@@ -5,8 +5,8 @@
         <i class="el-icon-s-grid" />
         <p>数据列表</p>
         <el-button style="float: right;height: 29px;margin-top: 3px;margin-right: 15px;line-height: 0;" type="danger">删除</el-button>
-        <el-button style="float: right;height: 29px;margin-top: 3px;margin-right: 15px;line-height: 0;" type="warning" @click="update">修改</el-button>
-        <el-button style="float: right;height: 29px;margin-top: 3px;margin-right: 15px;line-height: 0;" type="primary" >新增</el-button>
+        <el-button style="float: right;height: 29px;margin-top: 3px;margin-right: 15px;line-height: 0;" type="warning">修改</el-button>
+        <el-button style="float: right;height: 29px;margin-top: 3px;margin-right: 15px;line-height: 0;" type="primary">新增</el-button>
       </div>
     </div>
     <el-table
@@ -69,12 +69,8 @@
     export default {
         name: "AttrParamTable",
         methods:{
-          //点击修改，跳转修改商品属性界面
-          update(){
-            alert("点击")
-            this.$router.push("/index/attr/updateAttr")
+          findAttrbutes(){
           },
-
           toggleSelection(rows) {
             if (rows) {
               rows.forEach(row => {
@@ -93,8 +89,7 @@
           handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
           }
-        },
-      data(){
+        },data(){
           return {
             tableData: [{
               date: '2016-05-03',

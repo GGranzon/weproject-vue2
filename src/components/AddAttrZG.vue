@@ -2,7 +2,7 @@
   <div>
     <div id="updataAttr-head">
       <i class="el-icon-menu" />
-      <p>修改属性</p>
+      <p>新增属性</p>
       <i @click="back" class="el-icon-close" />
     </div>
     <div id="updataAttr-from">
@@ -34,26 +34,25 @@
 
 <script>
   export default {
-    name: "UpdateAttrZG",
+    name: "AddAttrZG",
     methods:{
       back(){
         this.$router.push("/index/attr/attrTable")
       },
       onSubmit() {
         console.log(this.form)
-        this.$axios.get("http://localhost:8888/product-attr-group/updateAttrGroup",{
+        this.$axios.get("http://localhost:8888/product-attr-group/addAttrGroup",{
           params:{
-            groupId:sessionStorage.getItem("groupId"),
             groupName:this.form.groupName,
             status:this.form.status,
             sort:this.form.sort,
             categoryId:this.form.categoryid
           }
         }).then((resp)=>{
-          if (resp.data.message == "修改成功"){
+          if (resp.data.message == "新增成功"){
             this.$router.push("/index/attr/attrTable");
           }else {
-            alert("修改失败")
+            alert("新增失败")
           }
         })
       },

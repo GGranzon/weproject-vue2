@@ -11,7 +11,7 @@
       <div id="attr-search">
         <i class="el-icon-search" />
         <p>筛选查询</p>
-        <el-button style="float: right;height: 29px;margin-top: 3px;margin-right: 15px;line-height: 0;" type="primary">查询</el-button>
+        <el-button style="float: right;height: 29px;margin-top: 3px;margin-right: 15px;line-height: 0;" @click="searchEnter" type="primary">查询</el-button>
         <input v-model="search" class="el-input__inner" placeholder="请输入搜索内容" />
         <p style="float: right;margin-right: 15px">模糊条件</p>
       </div>
@@ -27,14 +27,24 @@
     export default {
         name: "AttributesZG",
         methods: {
-
+          toAttrTable(){
+            //this.$router.push("/attr/paramTable");
+          },
+          searchEnter(){
+            if (this.search != null && this.serch != ""){
+              console.log("进入查询");
+              sessionStorage.setItem("fuzzyString",this.search);
+              // this.$router.push("/index/attr/attrTable")
+              location.reload()
+            }
+          }
         },data(){
           return {
             search: ""
           }
-        },
-      created() {
-      }
+        },created() {
+          this.toAttrTable()
+        }
     }
 </script>
 

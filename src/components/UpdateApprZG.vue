@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;height: 100%;">
+  <div>
     <div id="updataAttr-head">
       <i class="el-icon-menu" />
       <p>修改商品</p>

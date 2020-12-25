@@ -14,32 +14,30 @@
         <el-col id="down-menu" :span="2">
           状态：
           <el-dropdown trigger="click">
-          <span class="el-dropdown-link">
-            全部<i class="el-icon-arrow-down el-icon--right"></i>
+          <span class="el-dropdown-link" >
+            {{productStatus}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item >已评估</el-dropdown-item>
-              <el-dropdown-item >待评估</el-dropdown-item>
-              <el-dropdown-item >待鉴定</el-dropdown-item>
+              <el-dropdown-item @click.native="seeStatus(statuies[0])">全部</el-dropdown-item>
+              <el-dropdown-item @click.native="seeStatus(statuies[1])">已评估</el-dropdown-item>
+              <el-dropdown-item @click.native="seeStatus(statuies[2])">待评估</el-dropdown-item>
+              <el-dropdown-item @click.native="seeStatus(statuies[3])">待鉴定</el-dropdown-item>
+              <el-dropdown-item @click.native="seeStatus(statuies[4])">已鉴定</el-dropdown-item>
             </el-dropdown-menu>
             </el-dropdown>
         </el-col>
         <div id="operator">
-          <p style="float: left;font-size: 18px;">操作人：</p>
-          <input class="el-input__inner" />
+          <p style="float: left;font-size: 18px;">录入人：</p>
+          <input class="el-input__inner" v-model="username" />
         </div>
         <div id="search">
           <p style="float: left;font-size: 18px;">模糊查询：</p>
-          <input class="el-input__inner" placeholder="请输入内容"/>
+          <input class="el-input__inner" v-model="inputBox" placeholder="请输入内容"/>
         </div>
-        <div id="date">
-          <p style="float: left;font-size: 18px;">录入日期：</p>
-          <input class="el-input__inner" type="date" />
-          <input class="el-input__inner" type="date" />
-        </div>
-        <el-button style="float: right;height: 29px;margin-top: 3px;margin-right: 15px;line-height: 0;" type="primary">查询</el-button>
+        <el-button style="float: right;height: 29px;margin-top: 3px;margin-right: 15px;line-height: 0;" @click="searchEnter" type="primary">查询</el-button>
+
       </div>
-      <div id="appr-table" >
+      <div id="appr-table">
         <router-view />
       </div>
     </div>
@@ -52,10 +50,20 @@
       methods: {
         toAttrTable(){
           //this.$router.push("/attr/paramTable");
+        },seeStatus(statu){
+          console.log(statu)
+          this.productStatus = statu;
+        },searchEnter(){
+          console.log(this.$data);
+          sessionStorage.setItem("fuzzyProduct",JSON.stringify(this.$data));
+          location.reload();
         }
       },data(){
         return {
-          search: ""
+          inputBox: "",
+          productStatus:"全部",
+          statuies: ["全部","已评估","待鉴定","待评估","已鉴定"],
+          username:""
         }
       },created() {
         this.toAttrTable();
@@ -104,7 +112,7 @@
     background-color: rgba(0, 0, 0, 0.06);
   }
   #down-menu{
-    margin-left: 280px;
+    margin-left: 380px;
   }
   #down-menu span{
     border: aquamarine 1px solid;
