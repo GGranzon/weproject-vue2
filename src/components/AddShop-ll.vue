@@ -3,36 +3,35 @@
     <el-container>
       <el-header>
         <el-breadcrumb separator=">" style="line-height: 60px;font-size: 16px;color: #2c3e50">
-          <el-breadcrumb-item :to="{ path: '/' }">主页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/index' }">主页</el-breadcrumb-item>
           <el-breadcrumb-item>新增门店</el-breadcrumb-item>
           <el-button type="primary" round style="float: right;margin-top: 10px" @click="shutdown">关闭</el-button>
         </el-breadcrumb>
       </el-header>
 
       <el-main>
-
         <div id="two">
           <el-form ref="form" :model="form" label-width="80px">
 
             <el-form-item label="编号">
-              <el-input v-model="form.id" :disabled="true" class="inputbox"></el-input>
+              <el-input v-model="form.id" :disabled="true" class="inputbox" placeholder="编号将由系统自动生成"></el-input>
             </el-form-item>
 
             <el-form-item label="门店名称">
-              <el-input v-model="form.name" class="inputbox" ></el-input>
+              <el-input v-model="form.shopName" class="inputbox" ></el-input>
             </el-form-item>
             <el-form-item label="联系人">
-              <el-input v-model="form.username" class="inputbox"></el-input>
+              <el-input v-model="form.contact" class="inputbox"></el-input>
             </el-form-item>
             <el-form-item label="联系电话">
-              <el-input v-model="form.phone" class="inputbox"></el-input>
+              <el-input v-model="form.tel" class="inputbox"></el-input>
             </el-form-item>
             <el-form-item label="地址" >
               <el-input v-model="form.address" class="inputbox"></el-input>
             </el-form-item>
 
             <el-form-item label="状态">
-              <el-radio-group v-model="form.resource">
+              <el-radio-group v-model="form.status">
                 <el-radio label="启用"></el-radio>
                 <el-radio label="停用"></el-radio>
               </el-radio-group>
@@ -60,10 +59,13 @@
                 </el-transfer>
               </div>
             </template>
+<!--            <template>-->
+<!--              <el-transfer v-model="value" :data="data"></el-transfer>-->
+<!--            </template>-->
 
 
             <el-form-item style="margin-top: 30px">
-              <el-button type="primary" @click="onSubmit">立即新增</el-button>
+              <el-button type="primary" @click="addShop">立即新增</el-button>
               <el-button>取消</el-button>
             </el-form-item>
 
@@ -95,12 +97,12 @@ export default {
     return {
       input: '',
       form: {
-        id:'1',
-        name: '',
-        username: '',
-        phone: '',
+        id:'',
+        shopName: '',
+        contact: '',
+        tel: '',
         address: '',
-        resource: ''
+        status: ''
       },
       data: generateData(),
       value: [1],
@@ -113,6 +115,21 @@ export default {
     },
     handleChange(value, direction, movedKeys) {
       console.log(value, direction, movedKeys);
+    },
+    //执行新增门店的逻辑
+    addShop(){
+      var _this = this;
+      this.$http.post("http://localhost:8888/shop/addshop",this.form).then((resp)=>{
+        console.log(this.form)
+        if (resp.data.statusCode==2000){
+          this.$message.success('insert success')
+          //新增成功的时候 跳转到门店管理展示页面
+          _this.$router.push("shop")
+        }else {
+        //  新增不成功的时候 就打印展示一下错误信息
+          console.log(resp.data.message)
+        }
+      })
     }
   }
 }

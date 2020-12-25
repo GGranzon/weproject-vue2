@@ -6,18 +6,18 @@
       </span>
     </el-header>
     <div style="margin-left:18%;margin-top: 20px">
-      <el-form :label-position="labelPosition" label-width="85px" :model="formLabelAlign" style="width: 400px ">
+      <el-form :label-position="labelPosition" label-width="85px" :model="productCategory" style="width: 400px ">
 
         <el-form-item label="分类编号">
-          <el-input v-model="formLabelAlign.name"></el-input>
+          <el-input v-model="productCategory.id" disabled></el-input>
         </el-form-item>
 
         <el-form-item label="分类名称">
-          <el-input v-model="formLabelAlign.region"></el-input>
+          <el-input v-model="productCategory.categoryName"></el-input>
         </el-form-item>
 
         <el-form-item label="排序">
-          <el-input v-model="formLabelAlign.type"></el-input>
+          <el-input v-model="productCategory.sort"></el-input>
         </el-form-item>
 
         <el-form-item label="分类图标">
@@ -36,33 +36,22 @@
         </el-upload>
         </el-form-item>
 
-        <el-form-item label="备注">
-          <el-input style="width: 600px;"></el-input>
+        <el-form-item label="备注" >
+          <el-input style="width: 600px;" v-model="productCategory.description"></el-input>
         </el-form-item>
         <el-form-item label="鉴定图定义">
-          <el-input style="width: 180px;float:left; margin-bottom:10px"></el-input>
-          <el-select placeholder="必选" style="width: 80px ;margin-bottom:10px">
+          <el-input style="width: 180px;float:left; margin-bottom:10px" v-model="productCategory.defin"></el-input>
+          <el-select placeholder="必选" style="width: 80px ;margin-bottom:10px" value="">
             <el-option label="可选" value="shanghai" ></el-option>
           </el-select>
           <input type="button" value="删除"></input>
 
-          <el-input style="width: 180px;float:left; margin-bottom:10px"></el-input>
-          <el-select placeholder="必选" style="width: 80px ;margin-bottom:10px">
-            <el-option label="可选" ></el-option>
-          </el-select>
-          <input type="button" value="删除"></input>
-
-          <el-input style="width: 180px;float:left; margin-bottom:10px"></el-input>
-          <el-select placeholder="必选" style="width: 80px ;margin-bottom:10px">
-            <el-option label="可选"></el-option>
-          </el-select>
-          <input type="button" value="删除"></input>
         </el-form-item>
       </el-form>
     </div>
     <el-footer style="height: 50px">
-      <el-button type="success" style="margin-top: 5px" @click="returnBigType">返回</el-button>
-      <el-button type="success" style="margin-top: 5px">成功按钮</el-button>
+      <el-button type="info" style="margin-top: 5px;float: right;margin-right: 350px" @click="returnBigType">返回</el-button>
+      <el-button type="success" style="margin-top: 5px;float: right;margin-right: 10px" @click="insertType">新增</el-button>
     </el-footer>
   </div>
 </template>
@@ -70,13 +59,15 @@
 <script>
 export default {
   data() {
-
     return {
       labelPosition: 'right',
-      formLabelAlign: {
-        name: '',
-        region: '',
-        type: ''
+      productCategory: {
+         id:'',
+         categoryName:'',
+         sort:'',
+         description:'',
+         defin:'',
+
       },
       fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
     };
@@ -98,6 +89,20 @@ export default {
     },
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
+    },
+
+    /*新增商品大类*/
+    insertType(){
+      var _this=this
+      console.log(this.productCategory)
+      this.$axios.post("http://localhost:8888/product-category/add",this.productCategory).then(function (resp){
+        alert(resp.data.message)
+        _this.$router.push("/index/smallCommodity")
+      })
+    },
+
+    insertTest(){
+      this.$axios.get("http://localhost:8888/product-category/add")
     }
   }
 
@@ -107,11 +112,10 @@ export default {
 </script>
 
 <style scoped>
-.el-header, .el-footer {
-  background-color: #E9EEF3;
-  color: #333;
-  text-align: center;
-  line-height: 40px;
+.el-header{
+  background-color:white;
+  color: #333333;
+  text-align:left;
+  line-height: 60px;
 }
-
 </style>
