@@ -3,7 +3,7 @@
     <el-container>
       <el-header>修改渠道
 
-        <el-button type="success" icon="el-icon-circle-close"  circle></el-button>
+        <el-button type="success" icon="el-icon-circle-close"  circle @click="closePage"></el-button>
 
       </el-header>
       <el-main>
@@ -24,21 +24,11 @@
             <el-form-item label="账户名称">
               <el-input v-model="form.accountName" style="width: 350px"></el-input>
             </el-form-item>
-            <el-form-item label="开户行">
-              <el-input v-model="form.openingBank" style="width: 350px"></el-input>
-            </el-form-item>
+
             <el-form-item label="账号">
               <el-input v-model="form.accountCode" style="width: 350px"></el-input>
             </el-form-item>
-            <el-form-item label="会员数量">
-              <el-input v-model="form.memberNum" style="width: 350px" readonly=“readonly”></el-input>
-            </el-form-item>
-            <el-form-item label="累计充值">
-              <el-input v-model="form.allCharge" style="width: 350px" readonly=“readonly”></el-input>
-            </el-form-item>
-            <el-form-item label="累计消费">
-              <el-input v-model="form.allPay" style="width: 350px" readonly=“readonly”></el-input>
-            </el-form-item>
+
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
                 <el-radio label="启用"></el-radio>
@@ -46,7 +36,7 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit" style="float: left;margin-left: 70px">立即创建</el-button>
+              <el-button type="primary" @click="updateDis" style="float: left;margin-left: 70px" >保存</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -66,19 +56,61 @@ export default {
         tel:'',
         cardCode:'',
         accountName:'',
-        openingBank:'',
         accountCode:'',
         memberNum:0,
-        allCharge:0,
-        allPay:0,
+
         status:''
       }
     }
   },
   methods: {
-    onSubmit() {
-      console.log('submit!');
+
+    findDis(){
+      var _this =this
+      this.form.id= sessionStorage.getItem("id")
+      console.log("更新的id"+this.form.id)
+      //查询数据库，返回数据
+      this.$axios.get("http://localhost:8888/distributor/findOne",{
+        params:{
+          id:this.form.id
+        }
+      }).then(function (res){
+        console.log(res)
+        _this.form.name=res.data.data.name,
+          _this.form.tel=res.data.data.tel,
+          _this.form.cardCode=res.data.data.cardCode,
+          _this.form.accountName=res.data.data.accountName,
+          _this.form.accountCode=res.data.data.accountCode,
+          _this.form.status=res.data.data.status
+      })
+    },
+    updateDis(){
+      this.$axios.get("http://localhost:8888/distributor/update",{
+        params:{
+          id:this.form.id,
+          name: this.form.name,
+          tel:this.form.tel,
+          cardCode:this.form.cardCode,
+          accountName:this.form.accountName,
+          accountCode:this.form.accountCode,
+          status:this.form.status
+        }
+      }).then(function (res){
+        if(res.data.statusCode==2000){
+          alert("修改渠道商信息成功");
+        }else if (res.data.statusCode==2001){
+          alert("修改渠道商信息失败");
+
+        }
+      })
+    },
+    closePage(){
+      console.log(11)
+      this.$router.push("/index/distri")
     }
+  },
+  created() {
+    this.findDis()
   }
 }
 </script>

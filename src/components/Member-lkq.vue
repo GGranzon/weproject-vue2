@@ -10,7 +10,7 @@
       </el-header>
       <el-main>
         <span>状态</span>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select @change="findByStatus"   v-model="value" placeholder="请选择" >
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -20,11 +20,12 @@
         </el-select>
         <span id="sreach1">查询条件</span>
         <el-input v-model="input" placeholder="请输入会员名、手机查询"></el-input>
-        <el-button id="sreach"  type="success" plain>查询</el-button>
+        <el-button id="sreach"  type="success" plain @click="findByConditions">查询</el-button>
 
         <el-button type="danger"  icon="el-icon-delete" circle @click="deletee" style="margin-top: 50px" ></el-button>
         <el-button type="primary" icon="el-icon-edit" circle @click="update"  style="margin-top: 50px" ></el-button>
         <el-button type="success" icon="el-icon-circle-plus-outline" circle  @click="add" style="margin-top: 50px"></el-button>
+        <el-button type="info" icon="el-icon-message" circle @click="memberInfo" style="margin-top: 50px"></el-button>
         <!--表格-->
         <el-table
           ref="multipleTable"
@@ -45,6 +46,12 @@
           <el-table-column
             prop="name"
             label="姓名"
+
+          >
+          </el-table-column>
+          <el-table-column
+            prop="accountName"
+            label="会员名"
           >
           </el-table-column>
           <el-table-column
@@ -112,6 +119,7 @@ export default {
         records: [],
       },
 
+
       options: [{
         value: '选项1',
         label: '全部'
@@ -120,17 +128,19 @@ export default {
         label: '启用'
       }, {
         value: '选项3',
-        label: '禁用'
+        label: '停用'
       }],
 
       value: '',
       input: '',
       sessionMember:"",
       deleted:[],
+      statuss:"",
 
       tableData: [{
         memberId:"",
-        name: '王小虎',
+        name:"",
+        accountName: '王小虎',
         tel:'4545',
         balance: 1000.0,
         frozenMoney:5454.0,
@@ -158,10 +168,10 @@ export default {
     deletee(){
       console.log(this.deleted)
       this.$axios.post("http://localhost:8888/member/del",this.deleted).then(function (res){
-          console.log(res)
+          if(res.data.statusCode==2000){
+            alert("删除成功，请刷新")
+          }
       })
-
-
     },
     toggleSelection(rows) {
       if (rows) {
@@ -174,6 +184,7 @@ export default {
     },
     //选择框
     handleSelectionChange(val) {
+      alert("只能修改一条会员信息")
       console.log(val)
         for(var i= 0;i<val.length;i++){
           this.sessionMember =val[i].memberId,
@@ -185,14 +196,18 @@ export default {
     //切换每页的条数
     handleSizeChange(val) {
       this.page.size=val;
-      this.show();
       console.log(`每页 ${val} 条`);
     },
     //切换当前页数
     handleCurrentChange(val) {
       this.page.current=val;
-      this.show()
       console.log(`当前页: ${val}`);
+    },
+    //显示个人详细信息
+    memberInfo(){
+      this.$router.push("/index/memberInfo")
+      console.log(this.sessionMember)
+      sessionStorage.setItem("memberid",this.sessionMember)
     },
     //展示会员信息
     show(){
@@ -203,24 +218,60 @@ export default {
             size:this.page.size
           }
         }).then(function (res){
-          _this.page.total=res.data.data.total;
-          _this.page.records=res.data.data.records;
+          _this.page=res.data.data
         })
     },
     //根据状态查询/停用和启用
+      findByStatus(vid){
+        //获取下拉框中的值
+        this.statuss=vid
+        var cond = "";
+        if(vid=='选项1'){
+          cond = "全部";
+        }else if (vid=='选项2'){
+          cond = "启用";
+        }else if (vid=='选项3'){
+          cond = "停用";
+        }
+       this.statuss=cond
+        //查询
+        var _this =this
+        this.$axios.get("http://localhost:8888/member/status",{
+          params:{
+            sta:this.statuss,
+            current:this.page.current,
+            size:this.page.size
+          }
+        }).then(function (res){
+          _this.page=res.data.data
 
+        })
+      },
+    //按查询条件查询
+    findByConditions(){
+      var _this =this
+    console.log(this.input)
+     this.$axios.get("http://localhost:8888/member/condition",{
+       params:{
+         condition:this.input,
+         current:this.page.current,
+         size:this.page.size
+       }
+     }).then(function (res){
+       console.log(res)
+       _this.page=res.data.data
 
-
-
-
+     })
+    },
     refresh(){
-      console.log(22222222)
       this.show();
+      this.input=""
     }
   },
   created() {
-    this.show();
-  }
+    this.show(this.statuss);
+  },
+
 }
 </script>
 

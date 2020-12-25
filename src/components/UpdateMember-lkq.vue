@@ -100,9 +100,7 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      console.log('submit!');
-    },
+
     findMember(){
       var _this =this
       this.form.memberId= sessionStorage.getItem("memberid")
@@ -157,7 +155,7 @@ export default {
     closePage(){
       this.$router.push("/index/member")
     }
-  },
+},
   created() {
     this.findMember()
   }
