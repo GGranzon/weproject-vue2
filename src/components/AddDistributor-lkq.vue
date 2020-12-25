@@ -3,7 +3,7 @@
     <el-container>
       <el-header>新增渠道
 
-        <el-button type="success" icon="el-icon-circle-close"  circle></el-button>
+        <el-button type="success" icon="el-icon-circle-close"  circle @click="closePage"></el-button>
 
       </el-header>
       <el-main>
@@ -11,7 +11,7 @@
           <el-form ref="form" :model="form" label-width="90px" >
 
             <el-form-item label="渠道名">
-              <el-input v-model="form.name" style="width: 350px"></el-input>
+              <el-input v-model="form.name" @blur="findByName" style="width: 350px"></el-input>
             </el-form-item>
             <el-form-item label="手机">
               <el-input v-model="form.tel" style="width: 350px"></el-input>
@@ -64,6 +64,34 @@ export default {
   methods: {
     onSubmit() {
       console.log('submit!');
+      console.log(this.form.status)
+      this.$axios.post("http://localhost:8888/distributor/save",this.form).then(function (res){
+        console.log(res);
+        if(res.data.statusCode==2000){
+          alert("新增会员成功");
+        }else if (res.data.statusCode==2001){
+          alert("新增会员失败");
+
+        }
+      })
+    },
+    //根据渠道商名查找
+    findByName(){
+      this.$axios.get("http://localhost:8888/distributor/isEmptyDis",{
+        params:{
+          name:this.form.name
+        }
+      }).then(function (res){
+        console.log(res)
+        if(res.data.statusCode==2003){
+          alert("该渠道商已存在");
+        }else if (res.data.statusCode==2000){
+          alert("还未注册，可以注册")
+        }
+      })
+    },
+    closePage(){
+      this.$router.push("/index/distri")
     }
   }
 }
