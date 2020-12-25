@@ -187,8 +187,8 @@ export default {
       alert("只能修改一条会员信息")
       console.log(val)
         for(var i= 0;i<val.length;i++){
-          this.sessionMember =val[i].memberId,
-            this.deleted[i]=val[i].memberId
+
+          this.deleted[i]=val[i].memberId
         }
         this.multipleSelection = val;
     },
