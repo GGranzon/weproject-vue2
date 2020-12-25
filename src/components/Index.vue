@@ -6,67 +6,27 @@
       </div>
       <div class="title-text">广沣典当管理系统</div>
       <div class="login-text">
-        <el-dropdown split-button type="primary" @click="handleClick">
-          点击登录
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>注销</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <el-button type="primary" icon="el-icon-chat-dot-square" @click="logout">点击注销</el-button>
       </div>
       <div class="login-text">
         <el-button type="primary" icon="el-icon-chat-dot-square">日志信息</el-button>
       </div>
     </div>
+
   <el-container style="height: 800px; border: 1px solid #eee">
-    <el-aside width="200px" >
-      <el-menu :default-openeds="['1', '3']">
-        <el-submenu index="1">
-          <template slot="title"><i class="el-icon-message"></i>系统用户</template>
-          <el-menu-item-group>
-            <el-menu-item index="1-1" @click="role">角色管理</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="2">
-          <template slot="title"><i class="el-icon-house"></i>门店配置</template>
-          <el-menu-item-group>
-            <el-menu-item index="2-1" @click="shop">门店资料</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title"><i class="el-icon-truck"></i>仓库配置</template>
-          <el-menu-item-group>
-            <el-menu-item index="2-1" @click="wareHouse">仓库配置</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="4">
-          <template slot="title"><i class="el-icon-setting"></i>商品配置</template>
-          <el-menu-item-group>
-            <el-menu-item index="3-1" @click="bigType">商品大类</el-menu-item>
-            <el-menu-item index="3-2" @click="smallType">商品小类</el-menu-item>
-            <el-menu-item index="3-1" @click="brand">品牌管理</el-menu-item>
-            <el-menu-item index="3-2" @click="productAttr">商品属性</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="5">
-          <template slot="title"><i class="el-icon-edit"></i>评估鉴定</template>
-          <el-menu-item-group>
-            <el-menu-item index="2-1" @click="assess">商品列表</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="6">
-          <template slot="title"><i class="el-icon-user"></i>会员管理</template>
-          <el-menu-item-group>
-            <el-menu-item index="2-1" @click="member">会员档案</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="7">
-          <template slot="title"><i class="el-icon-star-off"></i>渠道商管理</template>
-          <el-menu-item-group>
-            <el-menu-item index="2-1" @click="distri">渠道商</el-menu-item>
-          </el-menu-item-group>
+    <el-aside width="200px">
+      <el-menu :default-openeds="['0']">
+        <el-submenu v-for="menu,index in menus" :index="index+''" >
+          <template slot="title">
+            <span v-text="menu.permissionName" :class="menu.icon"></span>
+          </template>
+          <el-menu-item  :index="childIndex+''" v-for="child,childIndex in menu.children">
+            <h1  target="main" v-text="child.permissionName" @click="handleRoute(child)" style="color: #8492a6"></h1>
+          </el-menu-item>
         </el-submenu>
       </el-menu>
     </el-aside>
+
 <!-- 中间的主体内容 -->
     <el-container >
       <router-view/>
@@ -80,47 +40,30 @@
 export default {
   name: "Index",
   data() {
-    const item = {
-      date: '2016-05-02',
-      name: '王小虎',
-      address: '上海市普陀区金沙江路 1518 弄'
-    };
     return {
-      tableData: Array(20).fill(item)
+      menus:[],
     }
   },
   methods:{
-    shop(){
-      this.$router.push("/index/shop")
+    handleRoute(child){
+      //通过菜单URL跳转至指定路由
+      this.$router.push(child.url)
     },
-    wareHouse(){
-      this.$router.push("/index/wareHouse")
-    },
-    bigType(){
-      this.$router.push("/index/commodity")
-    },
-    smallType(){
-      this.$router.push("/index/smallCommodity")
-    },
-    brand(){
-      this.$router.push("/index/brandManage")
-    },
-    productAttr(){
-      this.$router.push("/index/attr/attrTable")
-    },
-    assess(){
-      this.$router.push("/index/appr/apprTable")
-    },
-    member(){
-      this.$router.push("/index/member")
-    },
-    distri(){
-      this.$router.push("/index/distri")
 
+    //登出操作
+    logout(){
+      this.$router.push()
     },
-    role(){
-      this.$router.push("/index/role")
-    }
+
+    //获取当前登录用户的操作权限（加载相应的菜单）
+    getMenu() {
+      this.$axios.get("http://localhost:8888/menu").then((resp) => {
+        this.menus = resp.data.data
+        console.log(resp)
+      })
+    },
+
+
 
   },
   created() {
@@ -128,6 +71,7 @@ export default {
       message: '欢迎进入系统！😘😘',
       type: 'success'
     });
+    this.getMenu()
   }
 }
 </script>

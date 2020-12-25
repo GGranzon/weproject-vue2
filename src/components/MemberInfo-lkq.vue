@@ -3,14 +3,17 @@
     <el-container>
       <el-header>会员详情
 
-        <el-button type="success" icon="el-icon-circle-close"  circle></el-button>
+        <el-button type="success" icon="el-icon-circle-close"  circle @click="closePage"></el-button>
 
       </el-header>
       <div id="formtable">
+
         <el-table
           :data="tableData"
           border
           style="width: 100%">
+
+
           <el-table-column
             prop="memberId"
             label="序号"
@@ -20,10 +23,31 @@
             prop="name"
             label="姓名"
           >
+          </el-table-column><el-table-column
+            prop="accountName"
+            label="账户名"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="birthday"
+            label="生日"
+          >
           </el-table-column>
           <el-table-column
             prop="tel"
             label="手机">
+          </el-table-column>
+          <el-table-column
+            prop="cardNum"
+            label="证件号码">
+          </el-table-column>
+          <el-table-column
+            prop="level"
+            label="等级">
+          </el-table-column>
+          <el-table-column
+            prop="openingBank"
+            label="开户行">
           </el-table-column>
           <el-table-column
             prop="balance"
@@ -35,33 +59,24 @@
             label="冻结金额"
           >
           </el-table-column>
-          <el-table-column
-            prop="ableCount"
-            label="可用积分"
-          >
-          </el-table-column>
+
           <el-table-column
             prop="joinDate"
             label="入会日期"
           >
           </el-table-column>
+          <el-table-column
+            prop="distributorId"
+            label="所属渠道"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="status"
+            label="状态"
+          >
+          </el-table-column>
         </el-table>
       </div>
-
-        <div style="margin-top: 20px">
-          <div class="block">
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage4"
-              :page-sizes="[100, 200, 300, 400]"
-              :page-size="100"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
-            </el-pagination>
-          </div>
-        </div>
-
     </el-container>
   </div>
 </template>
@@ -71,16 +86,32 @@ export default {
   name: "AddMember",
   data() {
     return {
-      tableData: [{
-        memberId:0,
-        name: '王小虎',
-        tel:'4545',
-        balance: 1000.0,
-        frozenMoney:5454.0,
-        ableount:45152,
-        joinDate:'2020.08.12'
-      }]
+      tableData:[],
+
     }
+  },
+  methods:{
+    show(){
+      var _this=this
+      this.tableData.memberId= sessionStorage.getItem("memberid")
+      console.log("更新的id"+this.tableData.memberId);
+      this.$axios.get("http://localhost:8888/member/memberInfo",{
+        params:{
+          id:this.tableData.memberId
+        }
+      }).then(function (res){
+        console.log(res.data.data)
+          _this.tableData=res.data.data
+
+
+      })
+    },
+    closePage(){
+      this.$router.push("/index/member")
+    }
+  },
+  created() {
+    this.show()
   }
 }
 </script>
